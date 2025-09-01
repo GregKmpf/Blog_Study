@@ -1,0 +1,350 @@
+<<<<<<< HEAD
+npm run dev
+
+📝 Passo a Passo para Configuração do Projeto
+1. Iniciar o Projeto Node.js
+
+Inicialize o projeto Node.js com o comando:
+
+npm init -y
+
+2. Instalar o Node.js
+
+O Node.js permite que você execute JavaScript fora do navegador, como um servidor. Instale a dependência:
+
+npm install node
+
+
+Agora você pode rodar scripts JavaScript com:
+
+node index.js
+
+3. Instalar o Express (Servidor Web)
+
+O Express é um framework que facilita a criação de servidores web e o gerenciamento de requisições HTTP. Instale o Express:
+
+npm install express
+
+
+Defina um script "start" no seu package.json para rodar o servidor:
+
+"scripts": {
+  "start": "node index.js"
+}
+
+
+Após isso, você pode rodar o servidor com:
+
+npm start
+
+4. Criar o Arquivo data-source.ts
+
+Crie o arquivo data-source.ts para configurar a conexão com o banco de dados utilizando o TypeORM. Exemplo básico:
+
+import 'reflect-metadata';
+import { DataSource } from 'typeorm';
+import { User } from './entity/users';
+
+if (!process.env.DB_HOST || !process.env.DB_PORT || !process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_NAME) {
+  throw new Error("Missing one or more required environment variables for database connection.");
+}
+
+export const AppDataSource = new DataSource({
+  type: 'postgres',
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  synchronize: true,
+  logging: false,
+  entities: [User],
+  migrations: [],
+  subscribers: [],
+});
+
+5. Criar a Entidade User
+
+Crie a pasta entity e dentro dela o arquivo users.ts para representar a tabela de usuários no banco de dados.
+
+Exemplo de definição da entidade User:
+
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column()
+  name!: string;
+
+  @Column({ unique: true })
+  email!: string;
+}
+
+6. Instalar o TypeScript
+
+Instale o TypeScript globalmente para poder compilar seus arquivos .ts:
+
+npm install -g typescript
+
+
+Depois, inicialize o arquivo tsconfig.json:
+
+npx tsc --init
+
+
+Dentro do tsconfig.json, adicione as seguintes configurações para o TypeORM funcionar corretamente:
+
+"experimentalDecorators": true,
+"emitDecoratorMetadata": true
+
+7. Instalar Tipos para Node.js
+
+Para o TypeScript reconhecer as variáveis e tipos do ambiente Node.js, instale os tipos:
+
+npm install --save-dev @types/node
+
+8. Instalar o dotenv
+
+O dotenv ajuda a carregar variáveis de ambiente de um arquivo .env para melhorar a segurança, especialmente para informações sensíveis (ex: credenciais do banco de dados).
+
+Instale o dotenv:
+
+npm install dotenv
+
+
+Crie um arquivo .env para armazenar suas variáveis de ambiente:
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=usuario
+DB_PASSWORD=senha
+DB_NAME=meubanco
+
+9. Instalar Tipos para o Express
+
+Para usar o Express com TypeScript, instale os tipos necessários:
+
+npm install --save-dev @types/express
+
+10. Iniciar o Servidor no TypeScript
+
+Crie o arquivo server.ts e configure o servidor Express com a conexão ao banco de dados e carregamento do .env:
+
+Exemplo:
+
+import 'reflect-metadata';
+import dotenv from 'dotenv';
+import express from 'express';
+import { AppDataSource } from './data-source';
+
+dotenv.config();
+
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
+const app = express();
+
+async function start() {
+  try {
+    await AppDataSource.initialize();
+    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+  } catch (err) {
+    console.error('Failed to start application:', err);
+    process.exit(1);
+  }
+}
+
+start();
+
+11. Instalar o Nodemon (Desenvolvimento)
+
+Para reiniciar o servidor automaticamente enquanto desenvolve, instale o nodemon:
+
+npm install --save-dev nodemon
+
+
+Adicione um script "dev" para rodar com o nodemon:
+
+"scripts": {
+  "start": "ts-node server.ts",
+  "dev": "nodemon server.ts"
+}
+
+
+Agora, use o comando para rodar com recarga automática:
+
+npm run dev
+
+12. Configuração do tsconfig.json
+
+Para corrigir erros de importação, modifique o tsconfig.json para ajustar a configuração do módulo:
+
+"verbatimModuleSyntax": false
+
+
+13. Apesar de estarmos usando o nodemon, ele ainda está tentando executar o arquivo server.ts diretamente com o node,
+ que só entende arquivos .js (JavaScript), e não .ts (TypeScript). É por isso que ele não consegue encontrar o módulo 
+ e "quebra".
+Para resolver isso, precisamos instruir o nodemon a usar o ts-node, que é um "executor" de TypeScript. 
+Ele compila o código em tempo real, permitindo que o node o entenda
+
+npm install ts-node --save-dev
+
+
+
+
+----DIA 2-----
+Relatorio do que foi feito -IA generation-
+
+Até o momento, a estrutura inicial da sua API está quase completa. Você conseguiu:
+
+Configurar os arquivos package.json e tsconfig.json para o projeto.
+
+Criar a entidade User com o TypeORM.
+
+Estabelecer a conexão com o banco de dados PostgreSQL usando as variáveis de ambiente.
+
+Criar um controlador (UserController) para a lógica de negócio de criação de usuários.
+
+Definir uma rota (user.routes.ts) para expor o endpoint de criação de usuários.
+
+Configurar o servidor Express (server.ts) para inicializar a aplicação e a conexão com o banco de dados.
+
+Corrigir diversos erros de configuração, caminhos de arquivos e execução, o que é uma parte normal e essencial do desenvolvimento.
+
+
+------------ DIA 2
+
+1- Fazendo o servidor rodar normalmente
+
+Instalar as dependencias de desenvolvimento faltantes
+npm install ts-node nodemon --save-dev
+
+2- NPM run dev não funciona pois precis do ts-node para rodar arquivoss ts
+agora ele roda com npm run dev
+
+3-  O TypeScript está te dizendo que você estou tentando usar a variável AppDataSource antes de ela ser declarada.
+mudarei isso no server.ts
+
+4-instalar o "driver" para rodar o Pg admin
+npm install pg
+
+5- VÁRIOS PROBLEMAS COM A CONEXÂO DE BANCO DE dados
+senha e usuario
+incorreto caminho do import { User } from './entity/users';
+entre outros
+
+6- Testes no POSTMAN
+  
+
+
+
+
+
+
+
+
+
+📦 Dependências Instaladas
+
+node – Para rodar JavaScript como servidor.
+
+express – Framework para gerenciamento de servidores web.
+
+typescript – Compilador para TypeScript.
+
+@types/node – Tipos do Node.js para TypeScript.
+
+@types/express – Tipos do Express para TypeScript.
+
+dotenv – Para carregar variáveis de ambiente de um arquivo .env.
+
+typeorm – ORM para conectar com o banco de dados.
+
+nodemon – Ferramenta para reiniciar o servidor durante o desenvolvimento.
+
+🚀 Como Rodar o Projeto
+
+Inicialize o projeto com:
+
+npm start
+
+
+Durante o desenvolvimento, use:
+
+npm run dev
+
+🔧 Erros Comuns e Soluções
+
+Erro de importação com typeorm:
+
+Verifique a configuração do tsconfig.json e adicione "verbatimModuleSyntax": false.
+
+Erro no process.env:
+
+Instale @types/node para garantir que o TypeScript reconheça os tipos de variáveis de ambiente.
+
+Agora o seu projeto está bem estruturado! Se precisar de mais ajuda, é só chamar! 😊
+=======
+ #começando o projeto
+
+ #instalação de dependencias 
+
+1-npm install node(usar javascript como um server)
+já posso usar node index.js
+
+2-Instalar o Express para "controlar o servidor"
+ele é usado para requisições(ex: app.get)
+
+npm install express
+npm start para inicializar o Server
+
+ inicializando o server -NPM Init
+
+3-criar o arquivo data-source.ts
+. Este arquivo conterá a configuração do banco de dados.
+  Defina AppDataSource: Dentro deste novo arquivo, defina e exporte o objeto AppDataSource usando a classe DataSource do TypeORM.
+
+4- Criei uma pasta entity(sera tabela no BD) com a classe users, para ser importada
+
+5- npm install -g typescript para instalar o typescript e ter a pasta tsconfig.jason
+
+iniciando e criando o tsconfig.json - > npx tsc --init
+
+depois ir no tsconfig.json e por isso
+/* Adicione/descomente essas duas linhas para o TypeORM */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+6- npm i --save-dev @types/node
+para o typescript entender os modulos
+
+
+7-npm intsll dotenv
+porque?
+segurança de ter as informações como local em um arquivo .env
+para segurança
+
+8-COMEÇANDO A INTEGRAÇÂO COM BANCO DE DADOS
+
+npm i --save-dev @types/express
+
+criar instancia e erro cod no server.js
+
+
+#Como rodar
+node index.js
+
+
+
+RELATORIOS de erros GERAIS
+Estava tendo problema no import { DataSource } from 'typeorm'; tive que mudar no json
+"verbatimModuleSyntax": false,
+
+problema no const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
+em process especificamente
+preciso "@types/node package. This package contains all the type declarations for the Node.js environment."
+
+npm i --save-dev @types/node
+>>>>>>> d23f6738e686980f7d4ea8ce65f7ec90c341f292
