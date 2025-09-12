@@ -1,0 +1,43 @@
+.app-header {
+  background-color: #1a1a1a; /* Um cinza bem escuro, quase preto */
+  color: #00ff7f;           /* Um verde brilhante, estilo "terminal" */
+  
+  display: flex;             /* Ativa o Flexbox para alinhar os itens */
+  align-items: center;       /* Centraliza os itens verticalmente */
+  justify-content: space-between; /* Distribui os itens horizontalmente */
+  
+  padding: 15px 50px;        /* Espaçamento interno: 15px em cima/baixo, 50px nas laterais */
+  font-family: 'Courier New', Courier, monospace; /* Fonte que parece de código */
+  border-bottom: 1px solid #00ff7f; /* Adiciona uma linha sutil abaixo do header */
+}
+
+.header-left,
+.header-center,
+.header-right {
+  flex: 1; /* Faz com que cada seção ocupe 1/3 do espaço disponível */
+}
+
+.header-left {
+  text-align: left; /* Alinha o conteúdo (Home) à esquerda */
+}
+
+.header-center {
+  text-align: center; /* Alinha o conteúdo (Code Journal) ao centro */
+}
+
+.site-title {
+  font-size: 1.8rem; /* Tamanho da fonte do título */
+  font-weight: bold;
+}
+
+.header-left nav a {
+  color: #00ff7f;          /* Garante que o link tenha a mesma cor verde */
+  text-decoration: none;  /* Remove o sublinhado padrão do link */
+  font-size: 1.2rem;
+  transition: color 0.3s, text-shadow 0.3s; /* Transição suave */
+}
+
+.header-left nav a:hover {
+  color: #ffffff;             /* Muda a cor para branco */
+  text-shadow: 0 0 5px #00ff7f; /* Adiciona um brilho sutil */
+}

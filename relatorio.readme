@@ -1,0 +1,22 @@
+1-usando vitejs
+
+Em vez de pré-compilar todo o código do projeto, o Vite serve os arquivos via módulos ES nativos, carregando e transformando apenas o código necessário conforme o navegador solicita, o que resulta 
+em um servidor de desenvolvimento instantâneo e uma experiência de "hot module replacement" (HMR) ultrarrápida
+
+
+2-usando o axios
+para trabalhar com a conexão do react converse com a API(backend)
+npm install axios
+
+Faz XMLHttpRequest do navegador
+Faz requisições http do node.js
+Suporta a API de Promessas
+Intercepta requisições e respostas
+Transforma os dados de requisições e de respostas
+Cancela requisições
+Timeouts
+Serializa parâmetros de consulta com suporte para aninhamento
+Serializa automaticamente o corpo da requisição para
+
+
+npm install react-router-dom

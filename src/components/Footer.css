@@ -1,0 +1,10 @@
+.app-footer {
+    background-color: #1a1a1a;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 20px 50px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    border-top: 1px solid #00ff7f;
+    margin-top: 40px; /* Empurra o rodapé para baixo */
+}
